@@ -43,7 +43,9 @@ module.exports = {
 			'error',
 			'always'
 		],
+		'@typescript-eslint/no-var-requires': 0,
 		'react/jsx-uses-react': 'error',
 		'react/jsx-uses-vars': 'error',
-	}
+	},
+	'ignorePatterns': ['/build/*.js'],
 };

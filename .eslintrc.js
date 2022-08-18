@@ -12,6 +12,7 @@ module.exports = {
 	],
 	'settings': {
 		'react': {
+			'pragma': 'React',
 			'version': 'detect'
 		}
 	},
@@ -20,7 +21,10 @@ module.exports = {
 	'parser': '@typescript-eslint/parser',
 	'parserOptions': {
 		'ecmaVersion': 'latest',
-		'sourceType': 'module'
+		'sourceType': 'module',
+		'ecmaFeatures': {
+			'jsx': true
+		},
 	},
 	'plugins': [
 		'react',

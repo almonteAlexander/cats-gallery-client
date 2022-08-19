@@ -9,54 +9,8 @@ module.exports = {
 	module: {
 		rules: [
 			{
-				test: /\.tsx$/,
-				use: {
-					loader: 'babel-loader',
-					options: {
-						presets: [
-							[
-								'@babel/preset-react',
-								{
-									runtime: 'automatic',
-								}
-							],
-						],
-					},
-				},
-				exclude: /node_modules/
-			},
-			{
-				test: /\.(tsx|ts)$/,
-				use: {
-					loader: 'babel-loader',
-					options: {
-						presets: ['@babel/preset-typescript']
-					}
-				},
-				exclude: /node_modules/
-			},
-			{
-				test: /\.(jsx|js)$/,
-				use: {
-					loader: 'babel-loader',
-					options: {
-						presets: [
-							[
-								'@babel/preset-react',
-								{
-									runtime: 'automatic',
-								}
-							],
-							[
-								'@babel/preset-env',
-								{
-									useBuiltIns: 'usage',
-									corejs: '3.24.1'
-								},
-							],
-						],
-					},
-				},
+				test: /\.(tsx|ts|jsx|js)$/,
+				use: 'babel-loader',
 				exclude: /node_modules/
 			},
 		],

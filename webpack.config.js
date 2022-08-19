@@ -5,6 +5,11 @@ module.exports = {
 	output: {
 		filename: 'bundle.js',
 		path: path.resolve(__dirname, 'build'),
+		assetModuleFilename: pathData => {
+			const fileFolder = path.dirname(pathData.filename).split('/').slice(3).join('/');
+			return `static/${fileFolder}/[name][ext]`;
+		},
+		clean: true,
 	},
 	module: {
 		rules: [
@@ -12,6 +17,10 @@ module.exports = {
 				test: /\.(tsx|ts|jsx|js)$/,
 				use: 'babel-loader',
 				exclude: /node_modules/
+			},
+			{
+				test: /\.(png|svg|jpg|jpeg|gif)$/i,
+				type: 'asset/resource',
 			},
 		],
 	},

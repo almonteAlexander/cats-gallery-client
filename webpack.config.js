@@ -8,7 +8,7 @@ module.exports = {
 	module: {
 		rules: [
 			{
-				test: /\.(tsx|jsx|js)$/,
+				test: /\.tsx$/,
 				use: {
 					loader: 'babel-loader',
 					options: {
@@ -16,7 +16,7 @@ module.exports = {
 							[
 								'@babel/preset-react',
 								{
-									runtime: 'automatic', // 'classic'
+									runtime: 'automatic',
 								}
 							],
 						],
@@ -34,9 +34,33 @@ module.exports = {
 				},
 				exclude: /node_modules/
 			},
+			{
+				test: /\.(jsx|js)$/,
+				use: {
+					loader: 'babel-loader',
+					options: {
+						presets: [
+							[
+								'@babel/preset-react',
+								{
+									runtime: 'automatic',
+								}
+							],
+							[
+								'@babel/preset-env',
+								{
+									useBuiltIns: 'usage',
+									corejs: '3.24.1'
+								},
+							],
+						],
+					},
+				},
+				exclude: /node_modules/
+			},
 		],
 	},
 	resolve: {
-		extensions: ['.tsx', '.jsx', '.ts', '.js'],
+		extensions: ['.tsx', '.ts', '.jsx', '.js'],
 	},
 };

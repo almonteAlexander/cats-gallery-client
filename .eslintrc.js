@@ -12,6 +12,7 @@ module.exports = {
 	],
 	'settings': {
 		'react': {
+			'pragma': 'React',
 			'version': 'detect'
 		}
 	},
@@ -20,7 +21,10 @@ module.exports = {
 	'parser': '@typescript-eslint/parser',
 	'parserOptions': {
 		'ecmaVersion': 'latest',
-		'sourceType': 'module'
+		'sourceType': 'module',
+		'ecmaFeatures': {
+			'jsx': true
+		},
 	},
 	'plugins': [
 		'react',
@@ -43,7 +47,9 @@ module.exports = {
 			'error',
 			'always'
 		],
+		'@typescript-eslint/no-var-requires': 0,
 		'react/jsx-uses-react': 'error',
 		'react/jsx-uses-vars': 'error',
-	}
+	},
+	'ignorePatterns': ['/build/**/*.js'],
 };

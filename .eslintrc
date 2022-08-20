@@ -33,7 +33,7 @@
 	"rules": {
 		"indent": [
 			"error",
-			"tab"
+			2
 		],
 		"linebreak-style": [
 			"error",
@@ -47,10 +47,16 @@
 			"error",
 			"always"
 		],
-		"eol-last": ["error", "never"],
-		"@typescript-eslint/no-var-requires": 0,
-		"react/jsx-uses-react": "error",
-		"react/jsx-uses-vars": "error"
+		"eol-last": [
+			"error", 
+			"never"
+		],
+		"no-unused-vars": "error",
+		"prefer-const": "error",
+		"no-var": "error",
+		"no-new-object": "error",
+		"object-shorthand": "error"
+
 	},
-	"ignorePatterns": ["/build/**/*.js"]
+	"ignorePatterns": ["*.js", "/build/**/*.js"]
 }

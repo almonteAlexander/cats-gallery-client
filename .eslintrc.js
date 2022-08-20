@@ -51,5 +51,5 @@ module.exports = {
 		'react/jsx-uses-react': 'error',
 		'react/jsx-uses-vars': 'error',
 	},
-	'ignorePatterns': ['/build/*.js'],
+	'ignorePatterns': ['/build/**/*.js'],
 };

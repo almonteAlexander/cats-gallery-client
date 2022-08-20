@@ -3,11 +3,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
 	output: {
-		filename: 'static/js/bundle.js',
+		filename: 'static/js/bundle.[contenthash].js',
 		path: path.resolve(__dirname, 'build'),
 		assetModuleFilename: pathData => {
 			const fileFolder = path.dirname(pathData.filename).split('/').slice(3).join('/');
-			return `static/${fileFolder}/[name][ext]`;
+			return `static/${fileFolder}/[name].[contenthash][ext]`;
 		},
 		clean: true,
 	},

@@ -29,7 +29,7 @@ module.exports = {
     ],
   },
   plugins: [
-    new HtmlWebpackPlugin({ template: './src/public/index.html' })
+    new HtmlWebpackPlugin({ template: './public/index.html' })
   ],
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js'],

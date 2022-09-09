@@ -1,0 +1,16 @@
+{
+  "testEnvironment": "jsdom",
+  "preset": "ts-jest",
+  "rootDir": "src",
+  "testRegex": ".*\\.test\\.(tsx|ts|jsx|js)$",
+  "moduleFileExtensions": ["tsx", "ts", "jsx", "js"],
+  "coverageDirectory": "../coverage",
+  "collectCoverageFrom": [
+    "**/*.{tsx,ts,jsx,js}",
+    "!index.{tsx,ts,jsx,js}",
+    "!**/common/**",
+    "!**/types/**",
+    "!**/constants/**",
+    "!**/enums/**"
+  ]
+}

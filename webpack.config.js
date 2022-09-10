@@ -5,8 +5,12 @@ module.exports = {
   output: {
     filename: 'static/js/bundle.[contenthash].js',
     path: path.resolve(__dirname, 'build'),
-    assetModuleFilename: pathData => {
-      const fileFolder = path.dirname(pathData.filename).split('/').slice(3).join('/');
+    assetModuleFilename: (pathData) => {
+      const fileFolder = path
+        .dirname(pathData.filename)
+        .split('/')
+        .slice(3)
+        .join('/');
       return `static/${fileFolder}/[name].[contenthash][ext]`;
     },
     clean: true,
@@ -16,7 +20,7 @@ module.exports = {
       {
         test: /\.(tsx|ts|jsx|js)$/,
         use: 'babel-loader',
-        exclude: /node_modules/
+        exclude: /node_modules/,
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
@@ -25,11 +29,14 @@ module.exports = {
       {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader'],
-      }
+      },
     ],
   },
   plugins: [
-    new HtmlWebpackPlugin({ template: './public/index.html' })
+    new HtmlWebpackPlugin({
+      template: './public/index.html',
+      favicon: './public/favicon.ico',
+    }),
   ],
   resolve: {
     extensions: ['.tsx', '.ts', '.jsx', '.js'],
@@ -39,5 +46,5 @@ module.exports = {
     open: true,
     compress: true,
   },
-  devtool: 'source-map'
+  devtool: 'source-map',
 };

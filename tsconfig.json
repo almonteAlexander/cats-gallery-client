@@ -2,6 +2,8 @@
   "compilerOptions": {
     /* Module Resolution */
     "moduleResolution": "node",
+    /* Base Url */
+    "baseUrl": ".",
     /* Language and Environment */
     "target": "ES5",             /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
     "jsx": "react-jsx",          /* Specify what JSX code is generated. */
@@ -13,6 +15,8 @@
     "allowJs": true,             /* Allow JavaScript files to be a part of your program. Use the 'checkJS' option to get errors from these files. */
     /* Emit */
     "noEmit": true,
+    /* Types */
+    "types": ["jest", "node", "@types/testing-library__jest-dom"],
     /* Type Checking */
     "strict": true,              /* Enable all strict type-checking options. */
     "noImplicitAny": true,       /* Enable error reporting for expressions and declarations with an implied 'any' type. */
@@ -21,5 +25,5 @@
     /* Completeness */
     "skipLibCheck": true         /* Skip type checking all .d.ts files. */
   },
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules", "cypress", "./cypress.config.ts"],
 }

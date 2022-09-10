@@ -1,0 +1,48 @@
+name: Deployment Pipeline
+on:
+  push:
+    branches:
+      - develop
+      - feature_github_actions_setup
+jobs:
+  deploy:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.17.0
+      - name: Install dependencies
+        run: |
+          npm ci --no-audit --no-fund --omit=optional
+      - name: QA / Code linting
+        run: npm run lint
+      - name: QA / Running unit and integration tests
+        run: npm test
+      - name: QA / Running E2E tests
+        uses: cypress-io/github-action@v4
+        with:
+          start: npm run start:dev
+          command: npm run test:e2e
+          browser: chrome
+          wait-on: http://localhost:3000
+      - name: Build
+        run: npm run build
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v1.2
+        with:
+          publish-dir: './build'
+          production-branch: feature_github_actions_setup
+          github-token: ${{ secrets.MAIN_GITHUB_TOKEN }}
+          deploy-message: ${{ github.event.push.head_commit.message }}
+          enable-pull-request-comment: false
+          enable-commit-comment: true
+          overwrites-pull-request-comment: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        timeout-minutes: 2

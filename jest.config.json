@@ -2,7 +2,7 @@
   "testEnvironment": "jsdom",
   "preset": "ts-jest",
   "rootDir": "src",
-  "testRegex": ".*\\.test\\.(tsx|ts|jsx|js)$",
+  "testRegex": ".*.test.(tsx|ts|jsx|js)$",
   "moduleFileExtensions": ["tsx", "ts", "jsx", "js"],
   "coverageDirectory": "../coverage",
   "collectCoverageFrom": [

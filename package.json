@@ -9,6 +9,7 @@
     "test": "jest",
     "test:cov": "jest --coverage",
     "test:e2e": "cypress run",
+    "cypress:install": "cypress install",
     "cypress:open": "cypress open",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",

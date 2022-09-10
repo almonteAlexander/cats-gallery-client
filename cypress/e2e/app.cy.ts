@@ -1,6 +1,6 @@
 describe('App', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:3000');
+    cy.visit('/');
   });
 
   it('can be opened', () => {

@@ -1,11 +1,19 @@
 name: Deployment Pipeline
 on:
   push:
-    branches:
-      - develop
-      - feature_github_actions_setup
+    branches: [main, develop]
+  pull_request:
+    branches: [develop]
+    types: [opened, synchronize]
 jobs:
-  deploy:
+  avoid_redundancy:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Cancel previous redundant builds
+        uses: styfle/cancel-workflow-action@0.10.0
+        with:
+          access_token: ${{ github.token }}
+  lint:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout
@@ -18,9 +26,24 @@ jobs:
           node-version: 16.17.0
       - name: Install dependencies
         run: |
-          npm ci --no-audit --no-fund --omit=optional
+          npm ci
       - name: QA / Code linting
         run: npm run lint
+  tests:
+    needs: [lint, build]
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.17.0
+      - name: Install dependencies
+        run: |
+          npm ci
       - name: QA / Running unit and integration tests
         run: npm test
       - name: QA / Running E2E tests
@@ -30,19 +53,69 @@ jobs:
           command: npm run test:e2e
           browser: chrome
           wait-on: http://localhost:3000
+  e2e-tests:
+    needs: [lint, build]
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.17.0
+      - name: Install dependencies
+        run: |
+          npm ci
+      - name: QA / Running E2E tests
+        uses: cypress-io/github-action@v4
+        with:
+          start: npm run start:dev
+          command: npm run test:e2e
+          browser: chrome
+          wait-on: http://localhost:3000
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.17.0
+      - name: Install dependencies
+        run: |
+          npm ci
       - name: Build
         run: npm run build
+      - uses: actions/upload-artifact@v3
+        with:
+          name: build
+          path: build
+  deploy:
+    needs: [tests, e2e-tests]
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: build
+          path: build
       - name: Deploy to Netlify
+        if: ${{ github.event_name == 'push' }}
         uses: nwtgck/actions-netlify@v1.2
         with:
           publish-dir: './build'
-          production-branch: feature_github_actions_setup
-          github-token: ${{ secrets.MAIN_GITHUB_TOKEN }}
+          production-branch: ${{ github.ref == 'refs/heads/main' && 'main' || 'develop' }}
+          production-deploy: true
+          github-token: ${{ github.token }}
           deploy-message: ${{ github.event.push.head_commit.message }}
           enable-pull-request-comment: false
           enable-commit-comment: true
           overwrites-pull-request-comment: true
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-        timeout-minutes: 2
+          NETLIFY_SITE_ID: ${{ github.ref == 'refs/heads/main' && secrets.NETLIFY_SITE_ID || secrets.NETLIFY_DEV_SITE_ID }}
+        timeout-minutes: 1

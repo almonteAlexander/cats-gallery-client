@@ -14,6 +14,7 @@
     "lint:fix": "eslint . --fix",
     "lint:staged": "lint-staged",
     "husky:prepare": "husky install",
+    "commit": "cz",
     "validate:commitmsg": "validate-commit-msg"
   },
   "repository": {
@@ -41,10 +42,12 @@
     "@typescript-eslint/eslint-plugin": "^5.33.1",
     "@typescript-eslint/parser": "^5.33.1",
     "babel-loader": "^8.2.5",
+    "commitizen": "^4.2.5",
     "conventional-commit-types": "^3.0.0",
     "core-js": "3.24.1",
     "css-loader": "^6.7.1",
     "cypress": "^10.7.0",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.22.0",
     "eslint-plugin-react": "^7.30.1",
     "html-webpack-plugin": "^5.5.0",
@@ -63,5 +66,10 @@
   "dependencies": {
     "react": "18.2.0",
     "react-dom": "18.2.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
   }
 }
